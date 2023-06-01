@@ -1,4 +1,4 @@
-function randomNumber (min, max){
+function randomNumber (max, min){
 let damage = Math.floor(Math.random() * (max - min) + min)
 return damage
 }
@@ -10,9 +10,10 @@ const app = Vue.createApp({
         return{
             playerHealth: 100,
             monsterHealth: 100,
-            specialAttackCooldown: 3,
+            specialAttackCooldown: 3, 
             gameOver: false,
-            winner:null
+            winner:null,
+            logMessages: []
         }
     },
 
@@ -63,21 +64,28 @@ const app = Vue.createApp({
 
     methods: {
         attackMonster(){
-            this.monsterHealth -= randomNumber(12, 6);
+            const attackValue = randomNumber(12, 6);
+            this.monsterHealth -= attackValue
+            this.addBattleLogMessage('player', 'attack', attackValue)
             this.attackPlayer();
         },
         attackPlayer(){
-            this.playerHealth -= randomNumber(15, 8)
+            const attackValue = randomNumber(15, 8)
+            this.playerHealth -= attackValue
+            this.addBattleLogMessage('monster', 'attack', attackValue)
             this.specialAttackCooldown == 4 ? this.specialAttackCooldown = 4 : this.specialAttackCooldown++;
         },
         specialAttack(){
-            this.monsterHealth -= randomNumber(16, 12);
+            const attackValue = randomNumber(16, 12);
+            this.monsterHealth -= attackValue
+            this.addBattleLogMessage('player', 'attack', attackValue)
             this.specialAttackCooldown =  this.specialAttackCooldown - 4
             this.attackPlayer();
         },
         healPlayer(){
             this.healValue = randomNumber(15, 9)
             this.playerHealth += this.healValue
+            this.addBattleLogMessage('player', 'heal', this.healValue)
             this.attackPlayer();
         },
         surrender() {
@@ -88,11 +96,16 @@ const app = Vue.createApp({
             this.playerHealth = 100
             this.monsterHealth = 100
             this.specialAttackCooldown = 3
-            this.gameOver = false
+            this.gameOver = false 
             this.winner = null
-            //battlelog = ""
+            this.logMessages = []
         },
-        battleLog(){
+        addBattleLogMessage(who, what, value){
+            this.logMessages.unshift({
+                actionBy: who,
+                actionType: what,
+                actionValue: value
+            })
             
         }
     },
