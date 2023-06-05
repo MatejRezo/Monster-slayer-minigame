@@ -24,7 +24,7 @@ const app = Vue.createApp({
                 this.gameOver = true;
             }else if(this.playerHealth >= 100){
                 this.playerHealth = 100
-            } 
+            }
         },
         monsterHealth(value){
             if(this.monsterHealth <= 0){
@@ -33,7 +33,8 @@ const app = Vue.createApp({
             }
         },
         gameOver(){
-            if(this.gameOver = true){
+            if(this.gameOver == true){
+                console.log("Game Over je true ")
                 if(this.monsterHealth === 0 && this.playerHealth === 0){
                     this.winner = "Draw"
                 }
@@ -44,9 +45,6 @@ const app = Vue.createApp({
                     this.winner = "Monster"
                 }
             }
-            console.log("player health is " + this.playerHealth)
-            console.log("monster health is " + this.monsterHealth)
-            console.log("game is " + this.winner)
         }
     },
 
@@ -55,11 +53,25 @@ const app = Vue.createApp({
             return { width: this.monsterHealth + '%'}
         },
         playerBarStyles() {
-            return { width: this.playerHealth + '%'}
+            return { 
+                width: this.playerHealth + '%',
+                backgroundColor: this.healthColor
+        }
         },
         specialAttackStyles(){
         return this.specialAttackCooldown != 4 ? true : false
         },
+        healthColor() {
+            if (this.playerHealth >= 75) {
+                return '#00a876'; 
+            } else if (this.playerHealth >= 50) {
+                return 'yellow'; 
+            } else if (this.playerHealth >= 25) {
+                return 'orange'; 
+            } else {
+                return `red`; 
+            }
+        }
     },
 
     methods: {
@@ -68,6 +80,8 @@ const app = Vue.createApp({
             this.monsterHealth -= attackValue
             this.addBattleLogMessage('player', 'attack', attackValue)
             this.attackPlayer();
+            console.log(this.healthColor)
+            console.log(this.playerBarStyles)
         },
         attackPlayer(){
             const attackValue = randomNumber(15, 8)
@@ -96,9 +110,9 @@ const app = Vue.createApp({
             this.playerHealth = 100
             this.monsterHealth = 100
             this.specialAttackCooldown = 3
-            this.gameOver = false 
             this.winner = null
             this.logMessages = []
+            this.gameOver = false 
         },
         addBattleLogMessage(who, what, value){
             this.logMessages.unshift({

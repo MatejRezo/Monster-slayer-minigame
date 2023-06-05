@@ -118,3 +118,13 @@ button:disabled {
 .log--heal {
   color: green;
 }
+
+@keyframes blinking {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.blink {
+  animation: blinking 1s linear infinite;
+}
