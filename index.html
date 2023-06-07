@@ -20,7 +20,7 @@
       <section id="monster" class="container">
         <h2>Monster Health</h2>
         <div class="healthbar">
-          <div class="healthbar__value" :style="monsterBarStyles"></div>
+          <div class="healthbar__value" :class=" { blink: monsterHealthColor === 'red' }" :style="monsterBarStyles , monsterHealthColor"></div>
         </div>
       </section>
       <section id="player" class="container">
@@ -37,10 +37,10 @@
         <button @click="restartGame">Start New Game</button>
       </section> 
       <section id="controls">
-        <button @click="attackMonster">ATTACK</button>
-        <button :disabled="specialAttackStyles" @click="specialAttack">SPECIAL ATTACK</button>
-        <button @click="healPlayer">HEAL</button>
-        <button @click="surrender">SURRENDER</button>
+        <button :disabled="gameOverStyle" @click="attackMonster">ATTACK</button>
+        <button :disabled="gameOverStyle || specialAttackStyles"  @click="specialAttack">SPECIAL ATTACK</button>
+        <button :disabled="gameOverStyle" @click="healPlayer">HEAL</button>
+        <button :disabled="gameOverStyle" @click="surrender">SURRENDER</button>
       </section>
       <section id="log" class="container">
         <h2>Battle Log</h2> 

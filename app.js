@@ -49,8 +49,14 @@ const app = Vue.createApp({
     },
 
     computed: {
+        gameOverStyle(){
+            return this.gameOver == true ? true : false
+        },
         monsterBarStyles() {
-            return { width: this.monsterHealth + '%'}
+            return { 
+            width: this.monsterHealth + '%',
+            backgroundColor: this.monsterHealthColor
+        }   
         },
         playerBarStyles() {
             return { 
@@ -71,7 +77,18 @@ const app = Vue.createApp({
             } else {
                 return `red`; 
             }
-        }
+        },
+        monsterHealthColor(){
+            if (this.monsterHealth >= 75) {
+                return '#00a876'; 
+            } else if (this.monsterHealth >= 50) {
+                return 'yellow'; 
+            } else if (this.monsterHealth >= 25) {
+                return 'orange'; 
+            } else {
+                return `red`; 
+            }
+        },
     },
 
     methods: {
